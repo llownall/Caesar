@@ -1,10 +1,16 @@
 import random
 import sys
 
+if sys.argv[1] == '-help':
+    print('аргумент1 - output')
+    exit()
+
 if len(sys.argv) != 2:
     raise Exception('wrong args')
 
-alphabet = list(open(sys.argv[1], encoding='utf-8').read())
+alphabet = list()
+for i in range(ord('а'), ord('я') + 1):
+    alphabet.append(chr(i))
 print(*alphabet)
 
 for i in range(len(alphabet) - 1, 1, -1):
@@ -15,7 +21,7 @@ for i in range(len(alphabet) - 1, 1, -1):
 
 print(*alphabet)
 
-out = open('key.txt', 'w', encoding='utf-8')
+out = open(sys.argv[1], 'w', encoding='utf-8')
 for char in alphabet:
     out.write(char)
 print('saved to key.txt')

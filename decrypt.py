@@ -1,7 +1,11 @@
 import sys
 
-magic_const = 1072
-
+if sys.argv[1] == '-help':
+    print('аргумент1 - имя файла с зашифрованным текстом\n'
+          'аргумент2 - output\n'
+          'далее ОПЦИОНАЛЬНО!\n'
+          '-k аргумент3 - имя файла с ключом\n')
+    exit()
 
 def by_key(key=None):
     if key is None:
@@ -10,12 +14,11 @@ def by_key(key=None):
     text = list(open(sys.argv[1], encoding='utf-8').read())
     result = list()
     for char in text:
-        result.append(chr(key.index(char) + magic_const) if key.count(char) > 0 else '?')
-    print(*result, sep='')
+        result.append(chr(key.index(char) + ord('а')) if key.count(char) > 0 else '?')
 
-    out = open('decrypted.txt', 'w', encoding='utf-8')
+    out = open(sys.argv[2], 'w', encoding='utf-8')
     out.write(''.join(result))
-    print(f'saved to decrypted.txt')
+    print(f'saved to {sys.argv[2]}')
 
 
 def crack():
@@ -28,13 +31,13 @@ def crack():
     for i in range(33):
         key.append(' ')
     for i in range(len(text_)):
-        key[ord(info[i]) - magic_const] = text_[i]
+        key[ord(info[i]) - ord('а')] = text_[i]
     by_key(''.join(key))
 
 
-if len(sys.argv) != 2 and len(sys.argv) != 4:
+if len(sys.argv) != 3 and len(sys.argv) != 5:
     raise Exception('wrong args')
-elif len(sys.argv) == 4:
+elif len(sys.argv) == 5:
     if sys.argv[2] == '-k':
         by_key()
 else:
